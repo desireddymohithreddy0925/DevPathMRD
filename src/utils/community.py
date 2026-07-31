@@ -2,7 +2,7 @@
 
 import uuid
 from typing import Dict, List, Optional
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class CommunityManager:
@@ -24,7 +24,7 @@ class CommunityManager:
             "course_id": course_id,
             "title": title,
             "content": content,
-            "created_at": datetime.utcnow().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
             "replies": [],
             "likes": 0,
         }
@@ -43,7 +43,7 @@ class CommunityManager:
             "reply_id": f"reply_{uuid.uuid4().hex[:8]}",
             "user_id": user_id,
             "content": reply_content,
-            "created_at": datetime.utcnow().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
             "likes": 0,
         }
         self.discussions[discussion_id]["replies"].append(reply)
@@ -67,7 +67,7 @@ class CommunityManager:
             "title": title,
             "content": content,
             "tags": tags,
-            "created_at": datetime.utcnow().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
             "answers": [],
             "views": 0,
             "upvotes": 0,
@@ -87,7 +87,7 @@ class CommunityManager:
             "answer_id": f"answer_{uuid.uuid4().hex[:8]}",
             "user_id": user_id,
             "content": answer_content,
-            "created_at": datetime.utcnow().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
             "upvotes": 0,
             "is_accepted": False,
         }
@@ -105,7 +105,7 @@ class CommunityManager:
             "name": name,
             "course_id": course_id,
             "members": [creator_id],
-            "created_at": datetime.utcnow().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
             "description": "",
             "schedule": None,
         }

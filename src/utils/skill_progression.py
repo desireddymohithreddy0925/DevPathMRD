@@ -7,7 +7,7 @@ recommendations to ensure users develop foundational knowledge before advancing.
 
 from typing import Dict, Optional, Tuple
 from enum import Enum
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class SkillDifficulty(Enum):
@@ -194,7 +194,7 @@ class SkillProgressionValidator:
 
         skill_data = self.user_skills[user_id][skill_name]
         skill_data["difficulty"] = difficulty
-        skill_data["completed_at"] = datetime.utcnow().isoformat()
+        skill_data["completed_at"] = datetime.now(timezone.utc).isoformat()
         skill_data["assessment_score"] = assessment_score
         skill_data["progression_history"].append(
             {

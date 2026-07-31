@@ -6,7 +6,7 @@ estimated completion times, and time management recommendations.
 """
 
 from typing import Dict, List, Optional
-from datetime import datetime, timedelta
+from datetime import datetime, timezone, timedelta
 import statistics
 
 
@@ -31,7 +31,7 @@ class TimeSession:
 
     def end_session(self):
         """End the session and calculate duration."""
-        self.end_time = datetime.utcnow()
+        self.end_time = datetime.now(timezone.utc)
         duration = self.end_time - self.start_time
         self.duration_minutes = duration.total_seconds() / 60
 
@@ -76,7 +76,7 @@ class TimeTrackingManager:
         Returns:
             TimeSession object
         """
-        session = TimeSession(session_id, user_id, item_type, item_id, datetime.utcnow())
+        session = TimeSession(session_id, user_id, item_type, item_id, datetime.now(timezone.utc))
         self.active_sessions[session_id] = session
         return session
 
@@ -144,7 +144,7 @@ class TimeTrackingManager:
         Returns:
             Velocity metrics
         """
-        cutoff_date = datetime.utcnow() - timedelta(days=days)
+        cutoff_date = datetime.now(timezone.utc) - timedelta(days=days)
         recent_sessions = [
             s
             for s in self.sessions.values()
@@ -198,7 +198,7 @@ class TimeTrackingManager:
         )
 
         days_to_complete = total_estimated / avg_daily_time if avg_daily_time > 0 else 0
-        completion_date = datetime.utcnow() + timedelta(days=days_to_complete)
+        completion_date = datetime.now(timezone.utc) + timedelta(days=days_to_complete)
 
         return {
             "total_estimated_minutes": total_estimated,
@@ -275,6 +275,6 @@ class TimeTrackingManager:
             "hours_remaining": round(remaining_minutes / 60, 2),
             "days_to_target": round(days_needed, 1),
             "target_date": (
-                datetime.utcnow() + timedelta(days=days_needed)
+                datetime.now(timezone.utc) + timedelta(days=days_needed)
             ).isoformat(),
         }

@@ -1,7 +1,7 @@
 """Testing infrastructure and CI/CD utilities."""
 
 from typing import Dict, List, Optional
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class TestMetrics:
@@ -27,7 +27,7 @@ class TestMetrics:
             "status": status,
             "duration_ms": duration_ms,
             "error": error,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
         self.test_results[test_id] = result
         return result
@@ -87,7 +87,7 @@ class TestMetrics:
             "status": status,
             "test_summary": test_summary,
             "coverage": coverage,
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
         self.ci_runs.append(run)
         return run
